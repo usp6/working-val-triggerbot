@@ -1,0 +1,14 @@
+You are an expert C++ Windows developer specializing in high-performance, low-latency screen utilities.
+
+Write a clean, single-file C++17/20 program (Windows 10/11, Win32 API only, Visual Studio compatible) that:
+
+- Captures repeatedly a small centered screen zone (configurable size, e.g. 40×40 px)
+- Uses the fastest/lowest-latency capture method you consider best today
+- Detects if any pixel matches a configurable target RGB color ± configurable tolerance
+- When detected (and after configurable cooldown), simulates a human-like press/release of a configurable virtual keyboard key (NOT mouse)
+- Adds strong humanization: random delays before press, variable hold time, random repeat interval — all configurable
+- Everything adjustable via constants/defines at the top of the file
+
+Keep code minimal, well-commented, fast, production-ready. No GUI, no logs, no extra libraries.
+
+Provide complete compilable code + short usage comment at top.
