@@ -1,0 +1,71 @@
+You are an expert C++ Windows developer specializing in high-performance, low-latency screen utilities.
+# Task
+Write a clean, single-file C++17/20 program (Windows 10/11, Win32 API only, Visual Studio compatible) that continuously monitors a small screen area and triggers keyboard input when specific colors are detected.
+# Core Requirements
+## 1. Screen Capture
+- Capture a small centered screen zone repeatedly (configurable size, default 40×40 px)
+- Use the fastest/lowest-latency capture method available (BitBlt, Desktop Duplication API, or your recommended approach)
+- Optimize for minimal CPU usage and maximum responsiveness
+## 2. Color Detection
+The program must detect ANY of these four target colors within a configurable tolerance:
+- RGB(222, 132, 255)
+- RGB(238, 143, 211)
+- RGB(253, 118, 255)
+- RGB(255, 150, 235)
+Detection criteria:
+- Check each pixel in the capture zone against ALL four target colors
+- Match if |R_pixel - R_target| ≤ tolerance AND |G_pixel - G_target| ≤ tolerance AND |B_pixel - B_target| ≤ tolerance
+- Configurable tolerance value (e.g., default 10 per channel)
+- Trigger action immediately when ANY pixel matches ANY target color
+## 3. Keyboard Simulation
+When color detected (and after cooldown expires):
+- Simulate human-like press/release of a configurable virtual keyboard key (VK_* code)
+- Use SendInput() or equivalent for reliable input injection
+- NOT mouse input — keyboard only
+## 4. Humanization (Critical)
+Implement strong anti-detection randomization:
+- Random delay BEFORE key press: configurable range (e.g., 10-50ms)
+- Random key hold time: configurable range (e.g., 20-80ms)
+- Random cooldown between detections: configurable range (e.g., 500-1500ms)
+- Use high-quality random distribution (std::mt19937)
+## 5. Configuration
+All parameters adjustable via constants/defines at the top:
+- Capture zone size (width, height)
+- Target colors (array of RGB structs)
+- Color tolerance (per-channel)
+- Virtual key code to press
+- Humanization timing ranges (min/max for each delay type)
+- Capture interval/sleep time
+# Code Quality Requirements
+- Single .cpp file, no external dependencies beyond Windows SDK
+- Well-commented: explain capture method choice, algorithm logic, humanization strategy
+- Production-ready: proper error handling, resource cleanup
+- Minimal and fast: no GUI, no console logs (or minimal debug output via #ifdef)
+- Memory-safe: no leaks, proper RAII or explicit cleanup
+# Deliverable
+Provide:
+1. Complete compilable C++ code
+2. Short usage comment at the top explaining:
+   - How to compile (Visual Studio command or settings)
+   - How to adjust parameters
+   - What the program does when running
+# Example Configuration Section (expected at top of file)
+cpp
+// === CONFIGURATION ===
+constexpr int CAPTURE_WIDTH = 40;
+constexpr int CAPTURE_HEIGHT = 40;
+constexpr int COLOR_TOLERANCE = 10;
+constexpr DWORD TARGET_KEY = VK_SPACE; // Virtual key code
+// Target colors to detect
+const RGB_COLOR TARGET_COLORS[] = {
+    {222, 132, 255},
+    {238, 143, 211},
+    {253, 118, 255},
+    {255, 150, 235}
+};
+// Humanization timing (milliseconds)
+constexpr int DELAY_BEFORE_PRESS_MIN = 10;
+constexpr int DELAY_BEFORE_PRESS_MAX = 50;
+// ... etc
+
+Optimize for clarity, performance, and anti-detection effectiveness.
